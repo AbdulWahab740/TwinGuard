@@ -1,0 +1,9 @@
+# twinguard-core runtime dependencies.
+# Pure Python: no database driver, no web framework. See spec Section 1.
+pydantic>=2.7
+
+# Tests. No network access and no LLM key are required to run them.
+pytest>=8
+
+# Only used by OpenAICompatibleProvider, which the test suite never calls.
+httpx>=0.27
