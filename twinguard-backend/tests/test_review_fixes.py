@@ -54,11 +54,11 @@ def test_supabase_select_pushes_order_and_limit():
 
 def test_secret_rules():
     with pytest.raises(RuntimeError):
-        check_secret(Settings(env="prod", jwt_secret="short"))
+        check_secret(Settings(_env_file=None, env="prod", jwt_secret="short"))
     with pytest.raises(RuntimeError):
-        check_secret(Settings(env="prod"))
-    check_secret(Settings(env="prod", jwt_secret="x" * 32))
-    check_secret(Settings(env="dev"))
+        check_secret(Settings(_env_file=None, env="prod"))
+    check_secret(Settings(_env_file=None, env="prod", jwt_secret="x" * 32))
+    check_secret(Settings(_env_file=None, env="dev"))
 
 
 def test_review_task_created_after_action_saved(client, auth, db, monkeypatch):
