@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 from typing import Literal
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -19,7 +20,7 @@ class Settings(BaseSettings):
     agent_timeout_s: float = 60
     cors_origins: list[str] = ["http://localhost:5173"]
     eval_results_dir: str = "results"
-    scenarios_dir: str = "scenarios"
+    scenarios_dir: str = str(Path(__file__).resolve().parents[2] / "contracts" / "scenarios")
     demo_dataset: Literal["demo_baseline", "demo_stale"] = "demo_stale"
 
 

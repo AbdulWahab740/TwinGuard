@@ -2,6 +2,7 @@
 from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
+from twinguard_core import DecisionReport
 
 Status = Literal[
     "running", "decided", "needs_review", "approved", "rejected", "applied",
@@ -44,7 +45,7 @@ class RequestOut(BaseModel):
     steps: list[AgentStep] = []
     proposed_action: Optional[dict] = None
     decision: Optional[Outcome] = None
-    report: Optional[dict] = None
+    report: Optional[DecisionReport] = None  # core model, unchanged
     explanation: Optional[str] = None
     clarification: Optional[str] = None
     error: Optional[str] = None
@@ -84,7 +85,17 @@ class ScenarioOut(BaseModel):
     synthetic: bool = True
 
 
+class ScenarioReport(BaseModel):
+    """Evaluated path (eval conditions): decision + {reason_code, findings, simulations}."""
+    decision: Outcome
+    detail: dict
+
+
+class EvaluationSummary(BaseModel):
+    files: dict[str, dict]  # file name -> evaluation result JSON, verbatim
+
+
 class ScenarioRunOut(BaseModel):
-    report: dict
+    report: ScenarioReport
     conditions: dict[str, str]
     truth: Optional[dict] = None

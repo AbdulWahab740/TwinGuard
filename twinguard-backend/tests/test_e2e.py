@@ -1,7 +1,7 @@
-import json
 import socket
 from pathlib import Path
 
+import yaml
 from app.auth import verify_password
 from app.config import Settings
 from app.db import MemoryDb
@@ -13,8 +13,8 @@ ROOT = Path(__file__).parent.parent
 
 
 def test_openapi_file_is_current():
-    live = create_app(Settings(env="dev"), MemoryDb()).openapi()
-    assert json.loads((ROOT / "openapi.json").read_text()) == live
+    live = create_app(Settings(_env_file=None, env="dev"), MemoryDb()).openapi()
+    assert yaml.safe_load((ROOT.parent / "contracts" / "openapi.yaml").read_text(encoding="utf-8")) == live
 
 
 def test_seed_users_creates_three_hashed_idempotent():

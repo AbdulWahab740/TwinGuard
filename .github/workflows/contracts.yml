@@ -1,0 +1,42 @@
+# Contracts gate. Rule: change contracts/ first, then the code that uses it.
+name: contracts
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "22" }
+      - name: Install
+        run: pip install -e "twinguard-core[test,llm]" -r twinguard-backend/requirements.txt -r scripts/requirements.txt
+
+      - name: Contracts match the code, and live responses match decision.schema.json
+        run: python scripts/check_contracts.py
+
+      - name: Frontend types are regenerated from openapi.yaml
+        run: |
+          python scripts/gen_types.py
+          git diff --exit-code frontend/src/types
+
+      - name: Tests that compare against contracts/
+        run: |
+          (cd twinguard-core && pytest tests/test_contract_examples.py)
+          (cd twinguard-backend && pytest)
+
+      - name: contracts/ changed => types and tests must change too
+        if: github.event_name == 'pull_request'
+        run: |
+          changed=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD")
+          echo "$changed" | grep -q '^contracts/' || { echo "no contract change"; exit 0; }
+          if echo "$changed" | grep -q '^contracts/openapi.yaml' && ! echo "$changed" | grep -q '^frontend/src/types/'; then
+            echo "::error::contracts/openapi.yaml changed but frontend/src/types did not (run scripts/gen_types.py)"; exit 1
+          fi
+          echo "$changed" | grep -Eq '(^|/)tests/' || { echo "::error::contracts/ changed but no tests changed"; exit 1; }

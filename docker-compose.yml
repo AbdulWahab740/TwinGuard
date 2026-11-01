@@ -1,0 +1,10 @@
+# Run from the repo root: docker compose up --build
+# Database is hosted Supabase. Fill twinguard-backend/.env first (see .env.example).
+services:
+  api:
+    build:
+      context: .
+      dockerfile: twinguard-backend/Dockerfile
+    env_file: twinguard-backend/.env
+    ports:
+      - "8000:8000"

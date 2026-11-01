@@ -1,4 +1,5 @@
-"""Generate the synthetic scenario pack into scenarios/. Run from twinguard-backend/."""
+"""One-time generator for NEW scenarios in contracts/scenarios/. Existing files are fixed: do not
+regenerate them. After adding one, run scripts/make_fixtures.py to fill in its `expected`."""
 import json
 from pathlib import Path
 
@@ -7,7 +8,7 @@ from twinguard_core.eval.actions import make_action
 from twinguard_core.eval.corruption import corrupt_dataset
 from twinguard_core.eval.labeler import label_action
 
-OUT = Path(__file__).parent.parent / "scenarios"
+OUT = Path(__file__).parent.parent / "contracts" / "scenarios"
 SEED = 42
 SCENARIOS = [
     ("safe-transfer", "Clean data, small transfer", [], ActionType.TRANSFER_INVENTORY, False),

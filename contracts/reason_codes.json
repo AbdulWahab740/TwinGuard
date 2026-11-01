@@ -1,0 +1,35 @@
+{
+  "_comment": "Every finding code and reason code the code can emit, with a plain label and severity (info | warning | critical). Sources: core models.DataQualityCode, core eval/conditions.py. Live DecisionReport has NO reason_code field yet (free-text `reasons` only) - core must add one before the UI can use these on request reports. Change this file first, then the code.",
+  "finding_codes": {
+    "missing_field":        {"label": "A required value is missing (for example a supplier lead time).", "severity": "warning"},
+    "stale_timestamp":      {"label": "Stock data was last synced too long ago.", "severity": "warning"},
+    "duplicate_record":     {"label": "The same record appears twice.", "severity": "warning"},
+    "invalid_reference":    {"label": "A record points to something that does not exist.", "severity": "critical"},
+    "conflicting_quantity": {"label": "Two records disagree about the same stock quantity.", "severity": "critical"},
+    "unsupported_status":   {"label": "A record has a status TwinGuard does not understand.", "severity": "warning"}
+  },
+  "reason_codes": {
+    "invalid_action":                           {"label": "The action's parameters are not valid.", "severity": "critical", "outcome": "block"},
+    "permission_denied":                        {"label": "This role may not propose this action.", "severity": "critical", "outcome": "block"},
+    "transfer_quantity_exceeds_limit":          {"label": "The transfer is larger than the allowed maximum.", "severity": "critical", "outcome": "block"},
+    "transfer_same_warehouse":                  {"label": "Source and destination warehouse are the same.", "severity": "critical", "outcome": "block"},
+    "purchase_budget_exceeded":                 {"label": "The purchase is over the budget limit.", "severity": "critical", "outcome": "block"},
+    "simulation_rule_violation":                {"label": "The simulation breaks a business rule.", "severity": "critical", "outcome": "block"},
+    "all_simulations_rule_unsafe":              {"label": "Every simulated future breaks a business rule.", "severity": "critical", "outcome": "block"},
+    "all_simulations_unsafe":                   {"label": "Every simulated future ends badly.", "severity": "critical", "outcome": "block"},
+    "data_quality_finding":                     {"label": "The data has a problem, so a person must decide.", "severity": "warning", "outcome": "human_review"},
+    "serious_action_relevant_finding":          {"label": "A data problem affects this action.", "severity": "warning", "outcome": "human_review"},
+    "simulation_stockout_review":               {"label": "The simulation shows unmet customer demand.", "severity": "warning", "outcome": "human_review"},
+    "simulation_material_value_review":         {"label": "The action commits a large share of the budget.", "severity": "warning", "outcome": "human_review"},
+    "unsimulatable_data_finding":               {"label": "The data is too broken to simulate.", "severity": "warning", "outcome": "human_review"},
+    "near_capacity_under_uncertain_data":       {"label": "Warehouse may be near capacity and the data is uncertain.", "severity": "warning", "outcome": "human_review"},
+    "possible_hidden_po_coverage":              {"label": "A purchase order may be missing from the data.", "severity": "warning", "outcome": "human_review"},
+    "all_simulations_unsafe_with_data_findings":{"label": "Every future ends badly and the data has problems.", "severity": "warning", "outcome": "human_review"},
+    "simulation_outcomes_split":                {"label": "Some simulated futures are safe and some are not.", "severity": "warning", "outcome": "human_review"},
+    "checks_passed":                            {"label": "All checks passed.", "severity": "info", "outcome": "approve"},
+    "checks_passed_or_findings_unrelated":      {"label": "Checks passed; data problems do not affect this action.", "severity": "info", "outcome": "approve"},
+    "simulation_safe":                          {"label": "The simulation is safe.", "severity": "info", "outcome": "approve"},
+    "all_simulations_safe":                     {"label": "Every simulated future is safe.", "severity": "info", "outcome": "approve"},
+    "always_approve":                           {"label": "Baseline A: approves everything (evaluation only).", "severity": "info", "outcome": "approve"}
+  }
+}

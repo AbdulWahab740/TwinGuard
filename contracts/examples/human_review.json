@@ -1,0 +1,280 @@
+{
+  "request_id": "req-example",
+  "status": "needs_review",
+  "text": "cancel PO-2001",
+  "created_by": "manager",
+  "created_at": "2026-01-01T00:00:00Z",
+  "steps": [
+    {
+      "index": 0,
+      "tool": "get_current_state",
+      "summary": "{}"
+    },
+    {
+      "index": 1,
+      "tool": "propose_action",
+      "summary": "{'action_type': 'cancel_purchase_order', 'parameters': {'po_id': 'PO-2001'}}"
+    },
+    {
+      "index": 2,
+      "tool": "validate_action",
+      "summary": "{}"
+    },
+    {
+      "index": 3,
+      "tool": "run_simulation",
+      "summary": "{}"
+    },
+    {
+      "index": 4,
+      "tool": "get_decision",
+      "summary": "{}"
+    }
+  ],
+  "proposed_action": {
+    "action_id": "act-e355f94e172c",
+    "action_type": "cancel_purchase_order",
+    "parameters": {
+      "po_id": "PO-2001"
+    },
+    "proposed_by": "manager"
+  },
+  "decision": "human_review",
+  "report": {
+    "decision": "human_review",
+    "reasons": [
+      "risk is material but not a rule violation"
+    ],
+    "missing_evidence": [],
+    "simulation_report": {
+      "simulation_id": "sim-0fc65cae5d51",
+      "snapshot_id": "snap-0001",
+      "action": {
+        "action_id": "act-e355f94e172c",
+        "action_type": "cancel_purchase_order",
+        "parameters": {
+          "po_id": "PO-2001"
+        },
+        "proposed_by": "manager"
+      },
+      "final_state_diff": {
+        "products": {},
+        "suppliers": {},
+        "warehouses": {},
+        "inventory": {
+          "P-001|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 800,
+                "b": 680
+              }
+            }
+          },
+          "P-003|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 500,
+                "b": 100
+              }
+            }
+          },
+          "P-004|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 206,
+                "b": 166
+              }
+            }
+          },
+          "P-007|WH-01": {
+            "changed": {
+              "quantity_reserved": {
+                "a": 0,
+                "b": 5
+              }
+            }
+          },
+          "P-009|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 373,
+                "b": 343
+              }
+            }
+          },
+          "P-011|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 339,
+                "b": 324
+              }
+            }
+          }
+        },
+        "customer_orders": {
+          "SO-1001": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          },
+          "SO-1002": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          },
+          "SO-1003": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "delayed"
+              }
+            }
+          },
+          "SO-1004": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          },
+          "SO-1005": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          },
+          "SO-1006": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          }
+        },
+        "purchase_orders": {
+          "PO-2001": {
+            "changed": {
+              "status": {
+                "a": "pending",
+                "b": "cancelled"
+              }
+            }
+          }
+        }
+      },
+      "side_effects": [
+        "PO-2001 cancelled: 300 units of P-007 will no longer arrive on 2026-11-05",
+        "SO-1003 only partially reserved (5 of 25 units)",
+        "low priority order SO-1003 was pushed to delayed"
+      ],
+      "violated_rules": [],
+      "kpis": {
+        "stockout_count": 1.0,
+        "orders_delayed": 1.0,
+        "total_inventory_value": 40643.53,
+        "budget_used": 0.0,
+        "action_value": 0.0,
+        "orders_fulfilled": 5.0,
+        "orders_outstanding": 1.0,
+        "total_units_on_hand": 4855.0,
+        "capacity_used_pct": 69.36,
+        "max_warehouse_capacity_pct": 79.52,
+        "purchase_orders_pending": 0.0,
+        "purchase_orders_received": 1.0,
+        "violated_rule_count": 0.0,
+        "side_effect_count": 3.0
+      },
+      "warnings": [
+        "simulation horizon 14 days from 2026-11-01, seed 42"
+      ],
+      "trace": [
+        {
+          "day": 1,
+          "description": "applied cancel_purchase_order: cancelled PO-2001",
+          "entity_id": "PO-2001"
+        },
+        {
+          "day": 2,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 3,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 4,
+          "description": "demand due for 1 order(s); SO-1001 reserved 120/120; SO-1001 fulfilled",
+          "entity_id": "SO-1001"
+        },
+        {
+          "day": 5,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 6,
+          "description": "demand due for 1 order(s); SO-1002 reserved 40/40; SO-1002 fulfilled",
+          "entity_id": "SO-1002"
+        },
+        {
+          "day": 7,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 8,
+          "description": "demand due for 1 order(s); SO-1003 reserved 5/25",
+          "entity_id": ""
+        },
+        {
+          "day": 9,
+          "description": "demand due for 1 order(s); SO-1003 delayed",
+          "entity_id": "SO-1003"
+        },
+        {
+          "day": 10,
+          "description": "demand due for 2 order(s); SO-1004 reserved 15/15; SO-1004 fulfilled",
+          "entity_id": "SO-1004"
+        },
+        {
+          "day": 11,
+          "description": "demand due for 1 order(s)",
+          "entity_id": ""
+        },
+        {
+          "day": 12,
+          "description": "demand due for 2 order(s); SO-1005 reserved 400/400; SO-1005 fulfilled",
+          "entity_id": "SO-1005"
+        },
+        {
+          "day": 13,
+          "description": "demand due for 1 order(s)",
+          "entity_id": ""
+        },
+        {
+          "day": 14,
+          "description": "demand due for 2 order(s); SO-1006 reserved 30/30; SO-1006 fulfilled",
+          "entity_id": "SO-1006"
+        }
+      ]
+    },
+    "data_quality_issues": [],
+    "report_id": null,
+    "explanation": "Decision explained from the simulation and data checks above."
+  },
+  "explanation": "Decision explained from the simulation and data checks above.",
+  "clarification": null,
+  "error": null
+}

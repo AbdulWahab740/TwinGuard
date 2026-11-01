@@ -1,0 +1,14 @@
+{
+  "request_id": "req-example",
+  "status": "failed",
+  "text": "transfer stock",
+  "created_by": "planner",
+  "created_at": "2026-01-01T00:00:00Z",
+  "steps": [],
+  "proposed_action": null,
+  "decision": null,
+  "report": null,
+  "explanation": null,
+  "clarification": null,
+  "error": "RuntimeError: LLM provider unreachable"
+}

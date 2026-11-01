@@ -1,0 +1,453 @@
+{
+  "request_id": "req-example",
+  "status": "needs_review",
+  "text": "order pumps",
+  "created_by": "manager",
+  "created_at": "2026-01-01T00:00:00Z",
+  "steps": [
+    {
+      "index": 0,
+      "tool": "get_current_state",
+      "summary": "{}"
+    },
+    {
+      "index": 1,
+      "tool": "propose_action",
+      "summary": "{'action_type': 'create_purchase_order', 'parameters': {'product_id': 'P-007', 'supplier_id': 'SUP-001', 'quantity': 500}}"
+    },
+    {
+      "index": 2,
+      "tool": "validate_action",
+      "summary": "{}"
+    },
+    {
+      "index": 3,
+      "tool": "run_simulation",
+      "summary": "{}"
+    },
+    {
+      "index": 4,
+      "tool": "get_decision",
+      "summary": "{}"
+    }
+  ],
+  "proposed_action": {
+    "action_id": "act-cea005de61b6",
+    "action_type": "create_purchase_order",
+    "parameters": {
+      "product_id": "P-007",
+      "supplier_id": "SUP-001",
+      "quantity": 500
+    },
+    "proposed_by": "manager"
+  },
+  "decision": "human_review",
+  "report": {
+    "decision": "abstain",
+    "reasons": [
+      "missing/stale evidence: supplier lead time for SUP-003 (Meridian Plastics) is unknown",
+      "missing/stale evidence: inventory P-001@WH-01 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-001@WH-02 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-002@WH-01 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-002@WH-02 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-003@WH-01 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-003@WH-02 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-004@WH-01 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-004@WH-02 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-005@WH-01 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-005@WH-02 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-006@WH-01 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-006@WH-02 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-007@WH-01 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-008@WH-01 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-008@WH-02 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-009@WH-01 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-010@WH-01 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-011@WH-01 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-012@WH-01 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-013@WH-01 last synced 96h ago, limit is 24h",
+      "missing/stale evidence: inventory P-014@WH-01 last synced 96h ago, limit is 24h"
+    ],
+    "missing_evidence": [
+      "supplier lead time for SUP-003 (Meridian Plastics) is unknown",
+      "inventory P-001@WH-01 last synced 96h ago, limit is 24h",
+      "inventory P-001@WH-02 last synced 96h ago, limit is 24h",
+      "inventory P-002@WH-01 last synced 96h ago, limit is 24h",
+      "inventory P-002@WH-02 last synced 96h ago, limit is 24h",
+      "inventory P-003@WH-01 last synced 96h ago, limit is 24h",
+      "inventory P-003@WH-02 last synced 96h ago, limit is 24h",
+      "inventory P-004@WH-01 last synced 96h ago, limit is 24h",
+      "inventory P-004@WH-02 last synced 96h ago, limit is 24h",
+      "inventory P-005@WH-01 last synced 96h ago, limit is 24h",
+      "inventory P-005@WH-02 last synced 96h ago, limit is 24h",
+      "inventory P-006@WH-01 last synced 96h ago, limit is 24h",
+      "inventory P-006@WH-02 last synced 96h ago, limit is 24h",
+      "inventory P-007@WH-01 last synced 96h ago, limit is 24h",
+      "inventory P-008@WH-01 last synced 96h ago, limit is 24h",
+      "inventory P-008@WH-02 last synced 96h ago, limit is 24h",
+      "inventory P-009@WH-01 last synced 96h ago, limit is 24h",
+      "inventory P-010@WH-01 last synced 96h ago, limit is 24h",
+      "inventory P-011@WH-01 last synced 96h ago, limit is 24h",
+      "inventory P-012@WH-01 last synced 96h ago, limit is 24h",
+      "inventory P-013@WH-01 last synced 96h ago, limit is 24h",
+      "inventory P-014@WH-01 last synced 96h ago, limit is 24h"
+    ],
+    "simulation_report": {
+      "simulation_id": "sim-e39d4e671d2f",
+      "snapshot_id": "snap-0001",
+      "action": {
+        "action_id": "act-cea005de61b6",
+        "action_type": "create_purchase_order",
+        "parameters": {
+          "product_id": "P-007",
+          "supplier_id": "SUP-001",
+          "quantity": 500
+        },
+        "proposed_by": "manager"
+      },
+      "final_state_diff": {
+        "products": {},
+        "suppliers": {},
+        "warehouses": {},
+        "inventory": {
+          "P-001|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 800,
+                "b": 680
+              }
+            }
+          },
+          "P-003|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 500,
+                "b": 100
+              }
+            }
+          },
+          "P-004|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 206,
+                "b": 166
+              }
+            }
+          },
+          "P-007|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 5,
+                "b": 780
+              }
+            }
+          },
+          "P-009|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 373,
+                "b": 343
+              }
+            }
+          },
+          "P-011|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 339,
+                "b": 324
+              }
+            }
+          }
+        },
+        "customer_orders": {
+          "SO-1001": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          },
+          "SO-1002": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          },
+          "SO-1003": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          },
+          "SO-1004": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          },
+          "SO-1005": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          },
+          "SO-1006": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          }
+        },
+        "purchase_orders": {
+          "PO-2001": {
+            "changed": {
+              "status": {
+                "a": "pending",
+                "b": "received"
+              }
+            }
+          },
+          "PO-SIM-0001": {
+            "added": {
+              "po_id": "PO-SIM-0001",
+              "product_id": "P-007",
+              "supplier_id": "SUP-001",
+              "quantity": 500,
+              "expected_arrival": "2026-11-06",
+              "status": "received",
+              "destination_warehouse_id": null
+            }
+          }
+        }
+      },
+      "side_effects": [
+        "300 units of P-007 received into WH-01 from PO-2001",
+        "500 units of P-007 received into WH-01 from PO-SIM-0001",
+        "warehouse WH-01 at 90% capacity"
+      ],
+      "violated_rules": [
+        "purchase value 11700.00 exceeds max_purchase_budget 5000.00",
+        "2 pending purchase orders exist for P-007 from SUP-001"
+      ],
+      "kpis": {
+        "stockout_count": 0.0,
+        "orders_delayed": 0.0,
+        "total_inventory_value": 58778.53,
+        "budget_used": 11700.0,
+        "action_value": 11700.0,
+        "orders_fulfilled": 6.0,
+        "orders_outstanding": 0.0,
+        "total_units_on_hand": 5630.0,
+        "capacity_used_pct": 80.43,
+        "max_warehouse_capacity_pct": 90.18,
+        "purchase_orders_pending": 0.0,
+        "purchase_orders_received": 3.0,
+        "violated_rule_count": 2.0,
+        "side_effect_count": 3.0
+      },
+      "warnings": [
+        "simulation horizon 14 days from 2026-11-01, seed 42"
+      ],
+      "trace": [
+        {
+          "day": 1,
+          "description": "applied create_purchase_order: 500 x P-007 from SUP-001 arriving 2026-11-06",
+          "entity_id": "P-007"
+        },
+        {
+          "day": 2,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 3,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 4,
+          "description": "demand due for 1 order(s); SO-1001 reserved 120/120; SO-1001 fulfilled",
+          "entity_id": "SO-1001"
+        },
+        {
+          "day": 5,
+          "description": "received PO-2001(300)",
+          "entity_id": "PO-2001"
+        },
+        {
+          "day": 6,
+          "description": "demand due for 1 order(s); received PO-SIM-0001(500); SO-1002 reserved 40/40; SO-1002 fulfilled",
+          "entity_id": "PO-SIM-0001"
+        },
+        {
+          "day": 7,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 8,
+          "description": "demand due for 1 order(s); SO-1003 reserved 25/25; SO-1003 fulfilled",
+          "entity_id": "SO-1003"
+        },
+        {
+          "day": 9,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 10,
+          "description": "demand due for 1 order(s); SO-1004 reserved 15/15; SO-1004 fulfilled",
+          "entity_id": "SO-1004"
+        },
+        {
+          "day": 11,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 12,
+          "description": "demand due for 1 order(s); SO-1005 reserved 400/400; SO-1005 fulfilled",
+          "entity_id": "SO-1005"
+        },
+        {
+          "day": 13,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 14,
+          "description": "demand due for 1 order(s); SO-1006 reserved 30/30; SO-1006 fulfilled",
+          "entity_id": "SO-1006"
+        }
+      ]
+    },
+    "data_quality_issues": [
+      {
+        "code": "missing_field",
+        "detail": "supplier lead time for SUP-003 (Meridian Plastics) is unknown",
+        "entity_id": "SUP-003"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-001@WH-01 last synced 96h ago, limit is 24h",
+        "entity_id": "P-001|WH-01"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-001@WH-02 last synced 96h ago, limit is 24h",
+        "entity_id": "P-001|WH-02"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-002@WH-01 last synced 96h ago, limit is 24h",
+        "entity_id": "P-002|WH-01"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-002@WH-02 last synced 96h ago, limit is 24h",
+        "entity_id": "P-002|WH-02"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-003@WH-01 last synced 96h ago, limit is 24h",
+        "entity_id": "P-003|WH-01"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-003@WH-02 last synced 96h ago, limit is 24h",
+        "entity_id": "P-003|WH-02"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-004@WH-01 last synced 96h ago, limit is 24h",
+        "entity_id": "P-004|WH-01"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-004@WH-02 last synced 96h ago, limit is 24h",
+        "entity_id": "P-004|WH-02"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-005@WH-01 last synced 96h ago, limit is 24h",
+        "entity_id": "P-005|WH-01"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-005@WH-02 last synced 96h ago, limit is 24h",
+        "entity_id": "P-005|WH-02"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-006@WH-01 last synced 96h ago, limit is 24h",
+        "entity_id": "P-006|WH-01"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-006@WH-02 last synced 96h ago, limit is 24h",
+        "entity_id": "P-006|WH-02"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-007@WH-01 last synced 96h ago, limit is 24h",
+        "entity_id": "P-007|WH-01"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-008@WH-01 last synced 96h ago, limit is 24h",
+        "entity_id": "P-008|WH-01"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-008@WH-02 last synced 96h ago, limit is 24h",
+        "entity_id": "P-008|WH-02"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-009@WH-01 last synced 96h ago, limit is 24h",
+        "entity_id": "P-009|WH-01"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-010@WH-01 last synced 96h ago, limit is 24h",
+        "entity_id": "P-010|WH-01"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-011@WH-01 last synced 96h ago, limit is 24h",
+        "entity_id": "P-011|WH-01"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-012@WH-01 last synced 96h ago, limit is 24h",
+        "entity_id": "P-012|WH-01"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-013@WH-01 last synced 96h ago, limit is 24h",
+        "entity_id": "P-013|WH-01"
+      },
+      {
+        "code": "stale_timestamp",
+        "detail": "inventory P-014@WH-01 last synced 96h ago, limit is 24h",
+        "entity_id": "P-014|WH-01"
+      }
+    ],
+    "report_id": null,
+    "explanation": "Decision explained from the simulation and data checks above."
+  },
+  "explanation": "Decision explained from the simulation and data checks above.",
+  "clarification": null,
+  "error": null
+}

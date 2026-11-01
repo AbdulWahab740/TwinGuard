@@ -9,10 +9,11 @@ from fastapi.testclient import TestClient
 from tests.test_requests import post, settle
 
 ROOT = Path(__file__).parent.parent
+SCN = ROOT.parent / "contracts" / "scenarios"
 
 
 def scn_client(settings, db, **over):
-    s = settings.model_copy(update={"scenarios_dir": str(ROOT / "scenarios"), **over})
+    s = settings.model_copy(update={"scenarios_dir": str(SCN), **over})
     return TestClient(create_app(s, db))
 
 
@@ -55,7 +56,7 @@ def test_scenario_list_and_run(settings, db):
 def test_scenario_c_equals_core_condition_c(settings, db):
     from twinguard_core import ProposedAction, SeedDataset
     from twinguard_core.eval.conditions import condition_c
-    f = json.loads((ROOT / "scenarios" / "hidden-po-order.json").read_text())
+    f = json.loads((SCN / "hidden-po-order.json").read_text())
     want, _ = condition_c(SeedDataset.model_validate(f["observed"]),
                           ProposedAction.model_validate(f["action"]), f["seed"])
     with scn_client(settings, db) as c:
@@ -64,7 +65,7 @@ def test_scenario_c_equals_core_condition_c(settings, db):
 
 
 def test_non_synthetic_scenario_hides_truth(settings, db, tmp_path):
-    f = json.loads((ROOT / "scenarios" / "safe-transfer.json").read_text())
+    f = json.loads((SCN / "safe-transfer.json").read_text())
     f["synthetic"] = False
     (tmp_path / "x.json").write_text(json.dumps(f))
     with scn_client(settings, db, scenarios_dir=str(tmp_path)) as c:
@@ -106,3 +107,12 @@ def test_evaluation_summary_returns_files(settings, db, tmp_path):
     with TestClient(create_app(s, db)) as c:
         d = c.get("/api/evaluation/summary", headers=login(c)).json()
     assert d == {"files": {"a.json": {"x": 1}, "b.json": {"y": [2]}}}
+
+
+def test_scenario_runs_match_expected_in_pack(settings, db):
+    with scn_client(settings, db) as c:
+        h = login(c)
+        for f in sorted(SCN.glob("*.json")):
+            exp = json.loads(f.read_text(encoding="utf-8"))["expected"]["conditions"]
+            got = c.post(f"/api/scenarios/{f.stem}/run", headers=h).json()["conditions"]
+            assert got == exp, f.stem

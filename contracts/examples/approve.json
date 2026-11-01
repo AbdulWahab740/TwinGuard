@@ -1,0 +1,292 @@
+{
+  "request_id": "req-example",
+  "status": "needs_review",
+  "text": "transfer stock",
+  "created_by": "planner",
+  "created_at": "2026-01-01T00:00:00Z",
+  "steps": [
+    {
+      "index": 0,
+      "tool": "get_current_state",
+      "summary": "{}"
+    },
+    {
+      "index": 1,
+      "tool": "propose_action",
+      "summary": "{'action_type': 'transfer_inventory', 'parameters': {'product_id': 'P-003', 'source_warehouse_id': 'WH-01', 'destination_warehouse_id': 'WH-02', 'quantity': 50}}"
+    },
+    {
+      "index": 2,
+      "tool": "validate_action",
+      "summary": "{}"
+    },
+    {
+      "index": 3,
+      "tool": "run_simulation",
+      "summary": "{}"
+    },
+    {
+      "index": 4,
+      "tool": "get_decision",
+      "summary": "{}"
+    }
+  ],
+  "proposed_action": {
+    "action_id": "act-d6c307bed8a6",
+    "action_type": "transfer_inventory",
+    "parameters": {
+      "product_id": "P-003",
+      "source_warehouse_id": "WH-01",
+      "destination_warehouse_id": "WH-02",
+      "quantity": 50
+    },
+    "proposed_by": "planner"
+  },
+  "decision": "approve",
+  "report": {
+    "decision": "approve",
+    "reasons": [
+      "passes all checks"
+    ],
+    "missing_evidence": [],
+    "simulation_report": {
+      "simulation_id": "sim-34b3afa09a31",
+      "snapshot_id": "snap-0001",
+      "action": {
+        "action_id": "act-d6c307bed8a6",
+        "action_type": "transfer_inventory",
+        "parameters": {
+          "product_id": "P-003",
+          "source_warehouse_id": "WH-01",
+          "destination_warehouse_id": "WH-02",
+          "quantity": 50
+        },
+        "proposed_by": "planner"
+      },
+      "final_state_diff": {
+        "products": {},
+        "suppliers": {},
+        "warehouses": {},
+        "inventory": {
+          "P-001|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 800,
+                "b": 680
+              }
+            }
+          },
+          "P-003|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 500,
+                "b": 50
+              }
+            }
+          },
+          "P-003|WH-02": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 100,
+                "b": 150
+              }
+            }
+          },
+          "P-004|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 206,
+                "b": 166
+              }
+            }
+          },
+          "P-007|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 5,
+                "b": 280
+              }
+            }
+          },
+          "P-009|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 373,
+                "b": 343
+              }
+            }
+          },
+          "P-011|WH-01": {
+            "changed": {
+              "quantity_on_hand": {
+                "a": 339,
+                "b": 324
+              }
+            }
+          }
+        },
+        "customer_orders": {
+          "SO-1001": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          },
+          "SO-1002": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          },
+          "SO-1003": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          },
+          "SO-1004": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          },
+          "SO-1005": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          },
+          "SO-1006": {
+            "changed": {
+              "status": {
+                "a": "open",
+                "b": "fulfilled"
+              }
+            }
+          }
+        },
+        "purchase_orders": {
+          "PO-2001": {
+            "changed": {
+              "status": {
+                "a": "pending",
+                "b": "received"
+              }
+            }
+          }
+        }
+      },
+      "side_effects": [
+        "300 units of P-007 received into WH-01 from PO-2001"
+      ],
+      "violated_rules": [],
+      "kpis": {
+        "stockout_count": 0.0,
+        "orders_delayed": 0.0,
+        "total_inventory_value": 47078.53,
+        "budget_used": 0.0,
+        "action_value": 4.0,
+        "orders_fulfilled": 6.0,
+        "orders_outstanding": 0.0,
+        "total_units_on_hand": 5130.0,
+        "capacity_used_pct": 73.29,
+        "max_warehouse_capacity_pct": 81.68,
+        "purchase_orders_pending": 0.0,
+        "purchase_orders_received": 2.0,
+        "violated_rule_count": 0.0,
+        "side_effect_count": 1.0
+      },
+      "warnings": [
+        "simulation horizon 14 days from 2026-11-01, seed 42"
+      ],
+      "trace": [
+        {
+          "day": 1,
+          "description": "applied transfer_inventory: 50 x P-003 WH-01 -> WH-02",
+          "entity_id": "P-003"
+        },
+        {
+          "day": 2,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 3,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 4,
+          "description": "demand due for 1 order(s); SO-1001 reserved 120/120; SO-1001 fulfilled",
+          "entity_id": "SO-1001"
+        },
+        {
+          "day": 5,
+          "description": "received PO-2001(300)",
+          "entity_id": "PO-2001"
+        },
+        {
+          "day": 6,
+          "description": "demand due for 1 order(s); SO-1002 reserved 40/40; SO-1002 fulfilled",
+          "entity_id": "SO-1002"
+        },
+        {
+          "day": 7,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 8,
+          "description": "demand due for 1 order(s); SO-1003 reserved 25/25; SO-1003 fulfilled",
+          "entity_id": "SO-1003"
+        },
+        {
+          "day": 9,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 10,
+          "description": "demand due for 1 order(s); SO-1004 reserved 15/15; SO-1004 fulfilled",
+          "entity_id": "SO-1004"
+        },
+        {
+          "day": 11,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 12,
+          "description": "demand due for 1 order(s); SO-1005 reserved 400/400; SO-1005 fulfilled",
+          "entity_id": "SO-1005"
+        },
+        {
+          "day": 13,
+          "description": "no change",
+          "entity_id": ""
+        },
+        {
+          "day": 14,
+          "description": "demand due for 1 order(s); SO-1006 reserved 30/30; SO-1006 fulfilled",
+          "entity_id": "SO-1006"
+        }
+      ]
+    },
+    "data_quality_issues": [],
+    "report_id": null,
+    "explanation": "Decision explained from the simulation and data checks above."
+  },
+  "explanation": "Decision explained from the simulation and data checks above.",
+  "clarification": null,
+  "error": null
+}

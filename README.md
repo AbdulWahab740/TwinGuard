@@ -178,8 +178,48 @@ twinguard/
 │   ├── alembic/                 #   Database migrations
 │   ├── scripts/seed_supabase.py #   Loads demo data into Postgres
 │   └── tests/
-├── docs/                        # 📄 Build specs for each module
+├── contracts/                   # 🤝 Shared files: OpenAPI, decision schema, reason codes, examples, scenarios
+├── scripts/                     # 🔧 Contract generators and checks
+├── frontend/                    # 🖥️ Web app (types generated into src/types)
+├── docs/                        # 📄 Specs + EVALUATION_NOTES.md (source of truth for results)
+├── .github/                     # CODEOWNERS + contracts CI
 └── README.md
+```
+
+---
+
+## 🤝 Shared contracts
+
+`contracts/` is read by core, backend and frontend. **Change `contracts/` first, then the code that uses it.** All three people review every change (`.github/CODEOWNERS`).
+
+| File | What it is |
+|---|---|
+| `openapi.yaml` | Every endpoint, request, response and status. Generated from the backend; frontend types come from it. |
+| `decision.schema.json` | Shape of a decision report (live agent path and evaluated path). |
+| `reason_codes.json` | Every finding/reason code with a plain label and severity. |
+| `examples/` | 6 real responses (approve, block, human review, stale data, hidden PO, failed). Mock data for the UI. |
+| `scenarios/` | Demo scenarios with fixed seeds, observed state, action and expected decisions. |
+| `evaluation_summary.example.json` | Shape of the results endpoint. The frontend must never hardcode result numbers. |
+
+```powershell
+.\.venv\Scripts\python.exe scripts\export_contracts.py   # regenerate openapi.yaml + decision.schema.json
+.\.venv\Scripts\python.exe scripts\make_fixtures.py      # regenerate examples + scenario `expected`
+.\.venv\Scripts\python.exe scripts\gen_types.py          # regenerate frontend/src/types/api.d.ts (needs Node)
+.\.venv\Scripts\python.exe scripts\check_contracts.py    # what CI runs; also checks live backend responses
+```
+
+## 🪟 Run on Windows (PowerShell, from the repo root)
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -e .\twinguard-core[test,llm]
+pip install -r .\twinguard-backend\requirements.txt -r .\scripts\requirements.txt
+copy .env.example twinguard-backend\.env     # then fill it in (see comments inside)
+# run twinguard-backend\sql\schema.sql once in the Supabase SQL editor
+cd twinguard-backend
+python scripts\seed.py
+uvicorn app.asgi:app --reload                  # API docs at http://localhost:8000/docs
 ```
 
 ---
