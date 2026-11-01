@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic>=2.7
+pydantic-settings
+pyjwt
+bcrypt
+supabase
+httpx
+pytest
