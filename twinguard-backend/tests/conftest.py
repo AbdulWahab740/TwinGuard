@@ -18,7 +18,7 @@ def settings():
 @pytest.fixture
 def db():
     d = MemoryDb()
-    seed_dataset_into(d, "demo_stale")
+    seed_dataset_into(d, "demo_baseline")
     d.insert("users", [{"username": r, "password_hash": hash_password(f"pw-{r}"), "role": r}
                        for r in ROLES])
     return d

@@ -31,6 +31,7 @@ create table if not exists users (
   role text not null check (role in ('planner','manager','viewer')));
 create table if not exists requests (
   id text primary key, text text not null, created_by text not null,
+  created_by_role text not null,
   status text not null, created_at timestamptz not null default now(),
   action jsonb, decision text, reason_code text, report jsonb, explanation text,
   clarification text, error text, snapshot_version int);
