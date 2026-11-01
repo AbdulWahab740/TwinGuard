@@ -14,7 +14,7 @@ Windows (PowerShell), from the repo root:
 
 Docs: http://localhost:8000/docs  Tests: `pytest`
 
-Evaluation page data: `copy ..	winguard-core\eval_results_*.json results\` (not committed; 2 MB each).
+Evaluation page data: `copy ..\twinguard-core\eval_results_*.json results\` (not committed; 2 MB each).
 Scenario pack: `python scripts\make_scenarios.py`. Contract: `python scripts\export_openapi.py` rewrites `openapi.json`.
 Docker (from this folder, after filling `.env` and applying `sql/schema.sql`): `docker compose up --build`.
 Offline demo: `LLM_PROVIDER=fake` (default) uses a scripted agent, no network.
