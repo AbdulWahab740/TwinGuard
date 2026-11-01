@@ -38,7 +38,7 @@ def create(body: RequestIn, bg: BackgroundTasks, request: Request,
     record(db, rid, "request_received", user.username, {"text": body.text})
     st = request.app.state
     factory = getattr(st, "provider_factory", make_provider)
-    bg.add_task(run_request, rid, db, st.settings, factory(st.settings, body.text))
+    bg.add_task(run_request, rid, db, st.settings, lambda: factory(st.settings, body.text))
     return RequestCreated(request_id=rid)
 
 
@@ -55,7 +55,7 @@ def list_all(status: Optional[str] = None, outcome: Optional[str] = None,
              from_: Optional[str] = Query(None, alias="from"), to: Optional[str] = None,
              db=Depends(get_db)):
     eq = {k: v for k, v in (("status", status), ("decision", outcome)) if v}
-    rows = db.select("requests", **eq)  # shortcut: date filter done in Python, fine at demo scale
+    rows = db.select("requests", order_by="created_at", desc=True, limit=500, **eq)  # shortcut: newest 500, date filter in Python
     rows = [r for r in rows if (not from_ or str(r["created_at"]) >= from_)
             and (not to or str(r["created_at"]) <= to)]
     return [to_out(db, r) for r in sorted(rows, key=lambda r: str(r["created_at"]), reverse=True)]

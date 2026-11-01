@@ -11,5 +11,6 @@ router = APIRouter(prefix="/api/audit")
 
 @router.get("", response_model=list[AuditEventOut], dependencies=[Depends(current_user)])
 def events(request_id: Optional[str] = None, db=Depends(get_db)):
-    rows = db.select("audit_events", **({"request_id": request_id} if request_id else {}))
+    rows = db.select("audit_events", **({"request_id": request_id} if request_id
+                                       else {"order_by": "at", "desc": True, "limit": 500}))
     return [AuditEventOut(**{**r, "at": str(r["at"])}) for r in sorted(rows, key=lambda r: str(r["at"]))]

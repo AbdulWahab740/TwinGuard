@@ -1,3 +1,4 @@
+import uuid
 from typing import Optional
 
 from twinguard_core import (BusinessRules, CustomerOrder, DataStore, InventoryRecord,
@@ -28,7 +29,11 @@ class DbDataStore(DataStore):
         return self.db.select("store_meta", id=1)[0]["version"]
 
     def persist_snapshot(self, meta: SnapshotMeta, state: dict) -> None:
-        self.db.insert("snapshots", [meta.model_dump(mode="json")])
+        # core ids restart at snap-0001 for every TwinManager, so the stored key must be our own
+        row = meta.model_dump(mode="json")
+        row["core_snapshot_id"] = row["snapshot_id"]
+        row["snapshot_id"] = uuid.uuid4().hex
+        self.db.insert("snapshots", [row])
 
     def apply_approved_action(
         self, action: ProposedAction, expected_version: Optional[int] = None

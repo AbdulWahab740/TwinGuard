@@ -84,12 +84,14 @@ def _handle(rec: RecordingProvider, db, text: str, role: Role):
     return result, version, action
 
 
-def run_request(request_id: str, db, settings, provider: LLMProvider | None = None) -> None:
+def run_request(request_id: str, db, settings, provider_factory=None) -> None:
     row = db.select("requests", id=request_id)[0]
-    rec = RecordingProvider(provider or make_provider(settings, row["text"]))
     done = lambda **v: db.update("requests", v, id=request_id)
     ex = ThreadPoolExecutor(max_workers=1)
     try:
+        # built inside the try so a missing API key becomes a readable `failed`, not a zombie `running`
+        rec = RecordingProvider(provider_factory() if provider_factory
+                                else make_provider(settings, row["text"]))
         fut = ex.submit(_handle, rec, db, row["text"], ROLE_MAP[row["created_by_role"]])
         # shortcut: a timed-out agent thread keeps running in the background; fine for demo scale
         result, version, action = fut.result(timeout=settings.agent_timeout_s)
@@ -111,14 +113,17 @@ def run_request(request_id: str, db, settings, provider: LLMProvider | None = No
         gate_ok = decision == "approve"
         if gate_ok:
             record(db, request_id, "approved_by_gate", "system", {})
+        # Save action/snapshot_version first (status stays `running`) so a review task never exists
+        # without the data an approval needs.
+        done(decision=decision, action=action_json, snapshot_version=version,
+             report=result.model_dump(mode="json"), explanation=result.explanation)
         if decision == "human_review" or (gate_ok and not settings.allow_auto_apply):
             db.insert("review_tasks", [{"request_id": request_id, "status": "pending",
                                         "action": action_json, "reasons": result.reasons,
                                         "created_at": _now()}])
             record(db, request_id, "review_created", "system", {})
             status = "needs_review"
-        done(status=status, decision=decision, action=action_json, snapshot_version=version,
-             report=result.model_dump(mode="json"), explanation=result.explanation)
+        done(status=status)
         if gate_ok and settings.allow_auto_apply:
             auto_apply(db, request_id)
     except FutTimeout:

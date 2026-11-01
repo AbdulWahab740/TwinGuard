@@ -23,5 +23,5 @@ class Settings(BaseSettings):
 
 
 def check_secret(s: Settings) -> None:
-    if s.jwt_secret == DEFAULT_SECRET and s.env != "dev":
-        raise RuntimeError("set JWT_SECRET (default secret only allowed with ENV=dev)")
+    if s.env != "dev" and (s.jwt_secret == DEFAULT_SECRET or len(s.jwt_secret) < 32):
+        raise RuntimeError("set JWT_SECRET to 32+ chars (weak secrets only allowed with ENV=dev)")

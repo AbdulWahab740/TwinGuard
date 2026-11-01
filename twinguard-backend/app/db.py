@@ -16,7 +16,8 @@ class StaleVersionError(Exception):
 
 
 class Db(Protocol):
-    def select(self, table: str, **eq: Any) -> list[dict]: ...
+    def select(self, table: str, order_by: str | None = None, desc: bool = False,
+               limit: int | None = None, **eq: Any) -> list[dict]: ...
 
     def insert(self, table: str, rows: list[dict]) -> list[dict]: ...
 
@@ -36,10 +37,13 @@ class MemoryDb:
         self.t: dict[str, list[dict]] = {n: [] for n in TABLES}
         self._lock = threading.RLock()
 
-    def select(self, table, **eq):
+    def select(self, table, order_by=None, desc=False, limit=None, **eq):
         with self._lock:
-            return [copy.deepcopy(r) for r in self.t[table]
+            rows = [copy.deepcopy(r) for r in self.t[table]
                     if all(r.get(k) == v for k, v in eq.items())]
+        if order_by:
+            rows.sort(key=lambda r: str(r.get(order_by)), reverse=desc)
+        return rows[:limit] if limit else rows
 
     def insert(self, table, rows):
         with self._lock:
@@ -92,8 +96,13 @@ class SupabaseDb:
             q = q.eq(k, v)
         return q
 
-    def select(self, table, **eq):
-        return self._eq(self.c.table(table).select("*"), eq).execute().data
+    def select(self, table, order_by=None, desc=False, limit=None, **eq):
+        q = self._eq(self.c.table(table).select("*"), eq)
+        if order_by:
+            q = q.order(order_by, desc=desc)
+        if limit:
+            q = q.limit(limit)
+        return q.execute().data
 
     def insert(self, table, rows):
         return self.c.table(table).insert(rows).execute().data

@@ -46,7 +46,7 @@ create table if not exists audit_events (
   id text primary key, request_id text, kind text not null, actor text not null,
   at timestamptz not null default now(), payload jsonb not null default '{}');
 create table if not exists snapshots (
-  snapshot_id text primary key, source_version int not null,
+  snapshot_id text primary key, core_snapshot_id text not null, source_version int not null,
   created_at timestamptz not null, freshness_status text not null);
 
 alter table products enable row level security;
