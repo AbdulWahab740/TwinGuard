@@ -4,15 +4,19 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import Settings, check_secret
+from .db import Db, SupabaseDb
+from .routers import auth
 
 logging.basicConfig(level=logging.INFO)
 
 
-def create_app(settings: Settings | None = None) -> FastAPI:
+def create_app(settings: Settings | None = None, db: Db | None = None) -> FastAPI:
     settings = settings or Settings()
     check_secret(settings)
     app = FastAPI(title="TwinGuard API")
     app.state.settings = settings
+    app.state.db = db or SupabaseDb.from_settings(settings)
+    app.include_router(auth.router)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,
