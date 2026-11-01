@@ -45,9 +45,9 @@ def test_block_has_no_review_task(client, auth, db):
     assert db.select("review_tasks") == []
 
 
-def test_approve_decision_is_decided_and_not_applied(client, auth, db):
+def test_approve_decision_waits_for_a_human_by_default(client, auth, db):
     d = settle(client, auth, post(client, auth, "planner", "transfer stock"))
-    assert d["status"] == "decided" and d["decision"] == "approve"
+    assert d["status"] == "needs_review" and d["decision"] == "approve"
     assert db.select("store_meta")[0]["version"] == 1
 
 

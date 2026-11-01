@@ -15,6 +15,7 @@ from twinguard_core.agent.provider import (FakeLLMProvider, LLMProvider, OpenAIC
 
 from .audit import record
 from .db_store import DbDataStore
+from .review import auto_apply
 
 ROLE_MAP = {"planner": Role.PLANNER, "manager": Role.MANAGER}
 ACTIONS = {  # keyword in the request text -> scripted proposal (fake LLM only)
@@ -107,7 +108,10 @@ def run_request(request_id: str, db, settings, provider: LLMProvider | None = No
         record(db, request_id, "action_proposed", "agent", {"action": action_json})
         record(db, request_id, "decision", "system", {"decision": decision, "reasons": result.reasons})
         status = "decided"
-        if decision == "human_review":
+        gate_ok = decision == "approve"
+        if gate_ok:
+            record(db, request_id, "approved_by_gate", "system", {})
+        if decision == "human_review" or (gate_ok and not settings.allow_auto_apply):
             db.insert("review_tasks", [{"request_id": request_id, "status": "pending",
                                         "action": action_json, "reasons": result.reasons,
                                         "created_at": _now()}])
@@ -115,6 +119,8 @@ def run_request(request_id: str, db, settings, provider: LLMProvider | None = No
             status = "needs_review"
         done(status=status, decision=decision, action=action_json, snapshot_version=version,
              report=result.model_dump(mode="json"), explanation=result.explanation)
+        if gate_ok and settings.allow_auto_apply:
+            auto_apply(db, request_id)
     except FutTimeout:
         done(status="failed", error=f"agent timed out after {settings.agent_timeout_s}s")
         record(db, request_id, "failed", "system", {"error": "timeout"})
