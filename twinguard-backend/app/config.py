@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     supabase_url: str = ""
     supabase_key: str = ""
     jwt_secret: str = DEFAULT_SECRET
+    seed_password: str = ""  # only used by scripts/seed.py
     llm_provider: Literal["fake", "openai_compatible"] = "fake"
     allow_auto_apply: bool = False
     agent_timeout_s: float = 60

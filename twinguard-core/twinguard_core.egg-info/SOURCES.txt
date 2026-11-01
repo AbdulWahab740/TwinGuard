@@ -1,4 +1,11 @@
+README.md
 pyproject.toml
+tests/test_agent.py
+tests/test_data_store_contract.py
+tests/test_end_to_end.py
+tests/test_policy_engine.py
+tests/test_simulation_engine.py
+tests/test_twin_manager.py
 twinguard_core/__init__.py
 twinguard_core/data_store.py
 twinguard_core/models.py
@@ -15,3 +22,13 @@ twinguard_core/agent/__init__.py
 twinguard_core/agent/agent.py
 twinguard_core/agent/provider.py
 twinguard_core/agent/tools.py
+twinguard_core/eval/__init__.py
+twinguard_core/eval/__main__.py
+twinguard_core/eval/actions.py
+twinguard_core/eval/conditions.py
+twinguard_core/eval/corruption.py
+twinguard_core/eval/labeler.py
+twinguard_core/eval/metrics.py
+twinguard_core/eval/priority.py
+twinguard_core/eval/run.py
+twinguard_core/eval/scenario.py

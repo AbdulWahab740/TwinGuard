@@ -13,7 +13,7 @@ from app.db import SupabaseDb  # noqa: E402
 from app.seed import seed_dataset_into, seed_users  # noqa: E402
 
 settings = Settings()
-password = os.environ.get("SEED_PASSWORD")
+password = settings.seed_password
 if not password:
     sys.exit("set SEED_PASSWORD")
 db = SupabaseDb.from_settings(settings)
