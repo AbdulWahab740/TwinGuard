@@ -1,0 +1,51 @@
+{
+  "request_id": "req-1",
+  "text": "Order 500 units of P-007",
+  "created_by": "planner",
+  "created_at": "2026-11-01T10:00:00Z",
+  "steps": [
+    {
+      "index": 0,
+      "tool": "get_current_state",
+      "summary": "read state"
+    },
+    {
+      "index": 1,
+      "tool": "propose_action",
+      "summary": "create_purchase_order"
+    }
+  ],
+  "status": "needs_review",
+  "proposed_action": {
+    "action_id": "act-1",
+    "action_type": "create_purchase_order",
+    "parameters": {
+      "product_id": "P-007",
+      "supplier_id": "S-1",
+      "quantity": 500
+    },
+    "proposed_by": "planner"
+  },
+  "decision": "human_review",
+  "report": {
+    "decision": "human_review",
+    "reasons": [
+      "inventory data is stale (last sync 5 days ago)",
+      "simulation: 4 of 11 samples end in overstock"
+    ],
+    "missing_evidence": [
+      "confirmation of incoming PO delivery"
+    ],
+    "simulation_report": null,
+    "data_quality_issues": [
+      {
+        "code": "stale_timestamp",
+        "detail": "last synced 120h ago",
+        "entity_id": "P-007"
+      }
+    ],
+    "report_id": "rep-1",
+    "explanation": "Order sent to review because the stock data is old."
+  },
+  "explanation": "Order sent to review because the stock data is old."
+}
