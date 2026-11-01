@@ -1,0 +1,9 @@
+# Database is Supabase (hosted); put SUPABASE_URL / SUPABASE_KEY in .env.
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: twinguard-backend/Dockerfile
+    env_file: .env
+    ports:
+      - "8000:8000"

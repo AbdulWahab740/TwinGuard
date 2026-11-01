@@ -1,0 +1,7 @@
+.venv
+.git
+.superpowers
+**/__pycache__
+twinguard-core/eval_*.json
+twinguard-backend/results
+docs

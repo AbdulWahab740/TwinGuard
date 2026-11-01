@@ -20,3 +20,11 @@ def seed_dataset_into(db: Db, name: str, ds=None) -> None:
     db.insert("purchase_orders", dump(ds.purchase_orders))
     db.insert("business_rules", [{"id": 1, **ds.business_rules.model_dump(mode="json")}])
     db.insert("store_meta", [{"id": 1, "version": 1}])
+
+
+def seed_users(db: Db, password: str) -> None:
+    """Create planner/manager/viewer (same dev password) if missing."""
+    from .auth import hash_password
+    have = {u["username"] for u in db.select("users")}
+    db.insert("users", [{"username": r, "password_hash": hash_password(password), "role": r}
+                        for r in ("planner", "manager", "viewer") if r not in have])
